@@ -6,11 +6,13 @@ use core::{arch::asm, panic::PanicInfo};
 mod counter;
 use counter::Counter;
 
+/// A panic handler is required in Rust, this is probably the most basic one possible
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
     loop {}
 }
 
+/// Initializes registers and calls `main()`
 #[no_mangle]
 extern "C" fn init() -> ! {
     unsafe {
@@ -53,10 +55,11 @@ extern "C" fn init() -> ! {
     };
     // Call main function
     main();
-    // Wait forever
+    // Wait forever (Never return)
     loop {}
 }
 
+/// Main program function
 fn main() -> () {
     let mut counter = Counter::new(0x8000_0000);
     counter.set_command_reg(0xaaaa);
