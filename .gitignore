@@ -1,0 +1,9 @@
+##################
+# Added by cargo #
+##################
+
+# Build dir
+/target
+
+# Cargo lock file
+Cargo.lock
