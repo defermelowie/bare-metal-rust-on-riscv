@@ -1,5 +1,5 @@
 [package]
-name = "risc-v-test"
+name = "bare-metal-rust-on-riscv"
 version = "0.1.0"
 edition = "2021"
 authors = ["Lowie Deferme"]
