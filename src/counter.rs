@@ -2,9 +2,9 @@
 
 #[repr(C)]
 struct Counter_Registers {
-    cr: u32,
-    sr: u32,
-    value: u32,
+    cr: u32, // Control register
+    sr: u32, // Status register
+    vr: u32, // Value register
 }
 
 pub struct Counter {
@@ -18,6 +18,13 @@ impl Counter {
         }
     }
 
+    pub fn get_status_reg(&self) -> u32 {
+        unsafe {
+            let sr_p: *const u32 = &(self.reg.sr);
+            sr_p.read_volatile()
+        }
+    }
+
     pub fn get_command_reg(&self) -> u32 {
         unsafe {
             let cr_p: *const u32 = &(self.reg.cr);
@@ -25,24 +32,17 @@ impl Counter {
         }
     }
 
-    pub fn set_command_reg(&mut self, value: u32) -> () {
-        unsafe {
-            let cr_p: *mut u32 = &mut (self.reg.cr);
-            cr_p.write_volatile(value)
-        };
-    }
-
     pub fn get_value(&self) -> u32 {
         unsafe {
-            let value_p: *const u32 = &(self.reg.value);
+            let value_p: *const u32 = &(self.reg.vr);
             value_p.read_volatile()
         }
     }
 
-    pub fn set_value(&mut self, value: u32) -> () {
+    pub fn set_command_reg(&mut self, value: u32) -> () {
         unsafe {
-            let value_p: *mut u32 = &mut (self.reg.value);
-            value_p.write_volatile(value)
+            let cr_p: *mut u32 = &mut (self.reg.cr);
+            cr_p.write_volatile(value)
         };
     }
 }

@@ -14,8 +14,8 @@ fn panic(_info: &PanicInfo) -> ! {
 #[no_mangle]
 extern "C" fn init() -> ! {
     unsafe {
+        // Zero-initialize all registers
         asm!(
-            /* zero-initialize all registers */
             "addi x1, zero, 0",
             "addi x2, zero, 0",
             "addi x3, zero, 0",
@@ -46,22 +46,21 @@ extern "C" fn init() -> ! {
             "addi x28, zero, 0",
             "addi x29, zero, 0",
             "addi x30, zero, 0",
-            "addi x31, zero, 0",
-            /* set stack pointer */
-            "lui sp, %hi(16*1024)",
-            "addi sp, sp, %lo(16*1024)",
-            /* call main */
-            "jal ra, main"
-        )
+            "addi x31, zero, 0"
+        );
+        // Set stack pointer
+        asm!("lui sp, %hi(16*1024)", "addi sp, sp, %lo(16*1024)",)
     };
+    // Call main function
+    main();
+    // Wait forever
     loop {}
 }
 
-#[no_mangle]
-extern "C" fn main() -> () {
+fn main() -> () {
     let mut counter = Counter::new(0x8000_0000);
     counter.set_command_reg(0xaaaa);
-    counter.set_value(0x78478);
+    let c_s = counter.get_status_reg();
     let c_c = counter.get_command_reg();
     let c_v = counter.get_value();
 }
