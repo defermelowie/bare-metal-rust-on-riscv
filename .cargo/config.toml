@@ -1,8 +1,6 @@
 [target.riscv32i-unknown-none-elf]
 rustflags = [
     "-C", "link-arg=-Tres/memory.ld",
-    # "-C", "link-arg=-Tlink.x",
-    # "-C", "debuginfo=2",
     "-C", "opt-level=0",
 ]
 
