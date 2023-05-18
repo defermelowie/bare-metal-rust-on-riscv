@@ -37,8 +37,8 @@ impl Counter {
         }
     }
 
-    /// Get `command_reg`'s value
-    pub fn get_command_reg(&self) -> u32 {
+    /// Get `control_reg`'s value
+    pub fn get_control_reg(&self) -> u32 {
         unsafe {
             let cr_p: *const u32 = &(self.reg.cr); // Take pointer to command register
             cr_p.read_volatile() // Read from pointer
@@ -53,8 +53,8 @@ impl Counter {
         }
     }
 
-    /// Set `command_reg`'s value
-    pub fn set_command_reg(&mut self, value: u32) -> () {
+    /// Set `control_reg`'s value
+    pub fn set_control_reg(&mut self, value: u32) -> () {
         unsafe {
             let cr_p: *mut u32 = &mut (self.reg.cr); // Take mutable pointer to command register
             cr_p.write_volatile(value) // Write to pointer
