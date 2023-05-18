@@ -17,15 +17,17 @@ struct Counter_Registers {
 /// * `status_reg`
 /// * `control_reg`
 /// * `value_reg`
-pub struct Counter {
+///
+/// Furthermore the const generic `ADDRESS` is used to specify it's base address at compile time
+pub struct Counter<const ADDRESS: u32> {
     reg: &'static mut Counter_Registers,
 }
 
-impl Counter {
-    /// Create a new counter with given base address
-    pub fn new(counter_base_address: u32) -> Counter {
+impl <const A: u32> Counter<A> {
+    /// Create a new counter with a fixed base address
+    pub fn new() -> Self{
         Counter {
-            reg: unsafe { &mut *(counter_base_address as *mut Counter_Registers) },
+            reg: unsafe { &mut *(A as *mut Counter_Registers) },
         }
     }
 
