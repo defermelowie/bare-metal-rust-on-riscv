@@ -1,8 +1,18 @@
-[target.riscv32i-unknown-none-elf]
+[target.riscv32imac-unknown-none-elf]
+runner = ["spike", "-l", "--isa=RV32IMAC"]
+rustflags = [
+    "-C", "link-arg=-Tres/memory.ld",   # Add linker script "{projectdir}/res/memory.ld"
+    "-C", "opt-level=0",                # Don't optimize
+]
+
+[target.riscv64gc-unknown-none-elf]
+runner = ["spike", "-l", "--isa=RV64GC"]
 rustflags = [
     "-C", "link-arg=-Tres/memory.ld",   # Add linker script "{projectdir}/res/memory.ld"
     "-C", "opt-level=0",                # Don't optimize
 ]
 
 [build]
-target = "riscv32i-unknown-none-elf"    # Select target (valid targets can be found by "rustup target list")
+# Select target (valid targets can be found by "rustup target list")
+# target = "riscv32imac-unknown-none-elf"
+target = "riscv64gc-unknown-none-elf"
